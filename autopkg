@@ -51,8 +51,7 @@ _autopkg_audit() {
   local cur="${COMP_WORDS[COMP_CWORD]}"
   case "$cur" in
     --*)
-      __autopkgcomp "-h --help --bottle --bump --clean --ignore-whitespace \
-      --install --resolve"
+      __autopkgcomp "--help --search-dir --override-dir --recipe-list --plist"
       return
       ;;
   esac
@@ -78,8 +77,8 @@ _autopkg_install() {
   local cur="${COMP_WORDS[COMP_CWORD]}"
   case "$cur" in
     --*)
-      __autopkgcomp "--help --pre --post --check --ignoreparent-trust-verification-errors \
-      --report-plist= --verbose --search-dir=  --override-dir="
+      __autopkgcomp "--help --pre --post --ignoreparent-trust-verification-errors \
+      --check --report-plist= --verbose --search-dir=  --override-dir="
       return
       ;;
   esac
@@ -195,11 +194,11 @@ _autopkg() {
 
 	if [[ "$COMP_CWORD" = "1" ]] # we are matching the command
 	then
-      opts="audit help info install list-processors list-recipes \
+	  opts="audit help info install list-processors list-recipes \
 		make-override processor-info repo-add repo-delete repo-list \
 		repo-update run search update-trust-info verify-trust-info version"
 	  COMPREPLY=( $(compgen -W "${opts}" ${cur}) )
-      return 0
+	  return 0
 	fi
 
     cmd="${COMP_WORDS[1]}"
