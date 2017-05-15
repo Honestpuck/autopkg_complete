@@ -39,8 +39,24 @@ __autopkgcomp_recipes() {
 }
 
 __autopkgcomp_repos() {
-  # buuld a list of the repos - returns the URL form
-  local repos="$(for r in `autopkg repo-list`; do expr $r : '.*(\(.*\))'; done)"
+  # build a list of the repos - returns the URL form
+  local repolist="$(for r in `autopkg repo-list`; do expr $r : '.*(\(.*\))'; done)"
+  local repos
+  while read -r line; do
+  	# remove empty lines
+  	if [[ -n $line ]]; then
+  		repos="$repos $line"
+  	fi
+  	# when the repo url starts with github.com, also add the path
+  	if [[ $line == "https://github.com/"* ]]; then
+  		repos="$repos ${line:19}"
+  	fi
+  	# when the repo url starts with github.com/autopkg, then add just the name
+  	if [[ $line == "https://github.com/autopkg/"* ]]; then
+  		repos="$repos ${line:27}"
+  	fi
+  done <<< "$repolist"
+
   COMPREPLY=($(compgen -W "$repos" -- "$cur"))
 }
 
@@ -212,7 +228,7 @@ _autopkg() {
       make-override) _autopkg_make_override ;; 
       processor-info) _autopkg_processor_info ;; 
       repo-add) _autopkg_repo-add ;; 
-      repo-delete) _autopkg_delete ;; 
+      repo-delete) _autopkg_repo-delete ;; 
       repo-list) _autopkg_list_processors ;; 
       repo-update) _autopkg_repo-update ;; 
       run) _autopkg_run ;; 
