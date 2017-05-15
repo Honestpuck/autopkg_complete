@@ -51,7 +51,7 @@ _autopkg_audit() {
   local cur="${COMP_WORDS[COMP_CWORD]}"
   case "$cur" in
     --*)
-      __autopkgcomp "--help --search-dir --override-dir --recipe-list --plist"
+      __autopkgcomp "--help --search-dir= --override-dir= --recipe-list= --plist"
       return
       ;;
   esac
@@ -77,8 +77,8 @@ _autopkg_install() {
   local cur="${COMP_WORDS[COMP_CWORD]}"
   case "$cur" in
     --*)
-      __autopkgcomp "--help --pre --post --ignoreparent-trust-verification-errors \
-      --check --report-plist= --verbose --search-dir=  --override-dir="
+      __autopkgcomp "--help --pre --post --ignoreparent-trust-verification-errors
+        --check --report-plist= --verbose --search-dir=  --override-dir="
       return
       ;;
   esac
@@ -95,8 +95,8 @@ _autopkg_list_recipes() {
   local cur="${COMP_WORDS[COMP_CWORD]}"
   case "$cur" in
     --*)
-      __autopkgcomp "--help --with-identifiers --with-path --plist --show-all \
-      --search-dir=  --override-dir="
+      __autopkgcomp "--help --with-identifiers --with-path --plist --show-all
+        --search-dir=  --override-dir="
       return
       ;;
   esac
@@ -147,9 +147,9 @@ _autopkg_run() {
   local cur="${COMP_WORDS[COMP_CWORD]}"
   case "$cur" in
     --*)
-      __autopkgcomp "--help --pre= --post= --check --ignoreparent-trust-verification-errors\
-      --recipe-list= --pkg= --report-plist= --verbose \
-      --search-dir=  --override-dir="
+      __autopkgcomp "--help --pre= --post= --ignoreparent-trust-verification-errors
+        --check  --recipe-list= --pkg= --report-plist= --verbose 
+        --search-dir=  --override-dir="
       return
       ;;
   esac
