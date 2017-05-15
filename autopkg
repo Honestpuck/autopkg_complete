@@ -32,15 +32,20 @@ __autopkgcomp() {
   COMPREPLY=($(compgen -W "$list" -- "$cur"))
 }
 
-_autopkg_comp_recipes() {
-  	local recipes="$(autopkg list-recipes)"
-	COMPREPLY=($(compgen -W "$recipes" -- "$cur"))
+__autopkgcomp_recipes() {
+  # build a list of recipes
+  local recipes="$(autopkg list-recipes)"
+  COMPREPLY=($(compgen -W "$recipes" -- "$cur"))
 }
 
-_autopkg_comp_repos() {
-	local repos="$(for r in `autopkg repo-list`; do expr $r : '.*(\(.*\))'; done)"
-	COMPREPLY=($(compgen -W "$repos" -- "$cur"))
+__autopkgcomp_repos() {
+  # buuld a list of the repos - returns the URL form
+  local repos="$(for r in `autopkg repo-list`; do expr $r : '.*(\(.*\))'; done)"
+  COMPREPLY=($(compgen -W "$repos" -- "$cur"))
 }
+
+# one function for each autopkg command
+# some do nothing, just included for neatness and possible use in an expansion
 
 _autopkg_audit() {
   local cur="${COMP_WORDS[COMP_CWORD]}"
@@ -51,7 +56,7 @@ _autopkg_audit() {
       return
       ;;
   esac
-  _autopkg_comp_recipes 
+  __autopkgcomp_recipes 
 }
 
 _autopkg_help() {
@@ -66,7 +71,7 @@ _autopkg_info() {
       return
       ;;
   esac
-  _autopkg_comp_recipes
+  __autopkgcomp_recipes
 }
 
 _autopkg_install() {
@@ -78,6 +83,7 @@ _autopkg_install() {
       return
       ;;
   esac
+  # we can only install recipes ending in `.install`
   local installable="$(autopkg list-recipes | grep .install)"
   COMPREPLY=($(compgen -W "$installable" -- "$cur"))
 }
@@ -105,7 +111,7 @@ _autopkg_make_override() {
       return
       ;;
   esac
-  _autopkg_comp_recipes
+  __autopkgcomp_recipes
 }
 
 _autopkg_processor_info() {
@@ -119,23 +125,23 @@ _autopkg_processor_info() {
 }
 
 _autopkg_repo-add() {
-	return
+  return
 }
 
 _autopkg_repo-delete() {
-	_autopkg_comp_repos
+  __autopkgcomp_repos
 }
 
 _autopkg_repo-list() {
-	return
+  return
 }
 
 _autopkg_repo-add() {
-	return
+  return
 }
 
 _autopkg_repo-update() {
-	_autopkg_comp_repos
+  __autopkgcomp_repos
 }
 
 _autopkg_run() {
@@ -148,7 +154,7 @@ _autopkg_run() {
       return
       ;;
   esac
-  _autopkg_comp_recipes
+  __autopkgcomp_recipes
 }
 
 _autopkg_search() {
@@ -189,11 +195,11 @@ _autopkg() {
 
 	if [[ "$COMP_CWORD" = "1" ]] # we are matching the command
 	then
-    	opts="audit help info install list-processors list-recipes \
+      opts="audit help info install list-processors list-recipes \
 		make-override processor-info repo-add repo-delete repo-list \
 		repo-update run search update-trust-info verify-trust-info version"
-		COMPREPLY=( $(compgen -W "${opts}" ${cur}) )
-    	return 0
+	  COMPREPLY=( $(compgen -W "${opts}" ${cur}) )
+      return 0
 	fi
 
     cmd="${COMP_WORDS[1]}"
