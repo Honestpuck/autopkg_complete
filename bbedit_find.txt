@@ -1,0 +1,22 @@
+#
+# This is just a short note to remind the author how to generate code
+# easily using a list of commands and some find and replace in BBEdit.
+# Since it uses grep regexes you may find it useful in other IDEs.
+
+# find 
+(.*)\n
+
+# replace to create case statement.
+\t\1) _autopkg_\1 ;;\n
+
+# replace to create boilerplate funcs (include blank line at bottom)
+_autopkg_\1() {
+  local cur="${COMP_WORDS[COMP_CWORD]}"
+  case "$cur" in
+    --*)
+      __autopkgcomp "--help "
+      return
+      ;;
+  esac
+}
+
