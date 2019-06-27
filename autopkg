@@ -122,12 +122,23 @@ _autopkg_make_override() {
   local cur="${COMP_WORDS[COMP_CWORD]}"
   case "$cur" in
     --*)
-      __autopkgcomp "--help --search-dir=  --override-dir= --name="
+      __autopkgcomp "--help --force --search-dir=  --override-dir= --name="
       return
       ;;
   esac
   __autopkgcomp_recipes
 }
+
+_autopkg_new_recipe() {
+  local cur="${COMP_WORDS[COMP_CWORD]}"
+  case "$cur" in
+    --*)
+      __autopkgcomp "--help --parent-identifier= --identifier="
+      return
+      ;;
+  esac
+}
+
 
 _autopkg_processor_info() {
   local cur="${COMP_WORDS[COMP_CWORD]}"
@@ -165,7 +176,7 @@ _autopkg_run() {
     --*)
       __autopkgcomp "--help --pre= --post= --ignoreparent-trust-verification-errors
         --check  --recipe-list= --pkg= --report-plist= --verbose 
-        --search-dir=  --override-dir="
+        --search-dir=  --override-dir= --quiet"
       return
       ;;
   esac
@@ -211,7 +222,7 @@ _autopkg() {
 	if [[ "$COMP_CWORD" = "1" ]] # we are matching the command
 	then
 	  opts="audit help info install list-processors list-recipes \
-		make-override processor-info repo-add repo-delete repo-list \
+		make-override new-recipe processor-info repo-add repo-delete repo-list \
 		repo-update run search update-trust-info verify-trust-info version"
 	  COMPREPLY=( $(compgen -W "${opts}" ${cur}) )
 	  return 0
@@ -226,6 +237,7 @@ _autopkg() {
       list-processors) _autopkg_list_processors ;; 
       list-recipes) _autopkg_list_recipes ;; 
       make-override) _autopkg_make_override ;; 
+      new-recipe) _new_recipe ;;
       processor-info) _autopkg_processor_info ;; 
       repo-add) _autopkg_repo-add ;; 
       repo-delete) _autopkg_repo-delete ;; 
