@@ -241,7 +241,7 @@ _autopkg() {
       processor-info) _autopkg_processor_info ;; 
       repo-add) _autopkg_repo-add ;; 
       repo-delete) _autopkg_repo-delete ;; 
-      repo-list) _autopkg_list_processors ;; 
+      repo-list) _autopkg_repo-list ;; 
       repo-update) _autopkg_repo-update ;; 
       run) _autopkg_run ;; 
       search) _autopkg_search ;; 
