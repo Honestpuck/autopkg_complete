@@ -1,3 +1,10 @@
+## Note
+
+This repository is now deprecated and the completion is now included in my Apple Tools completion set at 
+https://github.com/Honestpuck/apple_complete
+
+See you over there :)
+
 ### Bash Completion For autopkg
 
 This is a script to provide custom completion for `autopkg` when
